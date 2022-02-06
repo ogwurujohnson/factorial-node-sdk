@@ -1,5 +1,5 @@
 import BaseError from "./BaseError";
-import type { Options } from "../../types";
+import type { Options } from "../_types";
 
 class ServerError extends BaseError {
   /**

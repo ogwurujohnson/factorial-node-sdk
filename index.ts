@@ -1,3 +1,3 @@
-import Factorial from "./lib/Factorial";
+import Factorial from "./lib/FactorialHR";
 
 export default Factorial;

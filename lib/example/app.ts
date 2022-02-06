@@ -1,5 +1,5 @@
 import express from "express";
-import FactorialHR from "../FactorialHR";
+import FactorialHR from "../../index";
 
 const opee = new FactorialHR("V9Rpk2TB2wa__fcoitqKO-iq0Ez8J1RWzJZFBHl8FSM");
 
@@ -13,7 +13,7 @@ app.set("port", process.env.PORT || 3000);
  * Primary app routes.
  */
 app.get("/", async (req, res) => {
-    const employees = await opee.createEmployee({ first_name: "Nabs", last_name: "Yousuph", email: "tset@nabs.com" })
+    const employees = await opee.Employee.getEmployees()
     console.log(employees);
     res.status(200).json({ message: "hola" });
 });

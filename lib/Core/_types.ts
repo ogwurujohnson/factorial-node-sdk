@@ -1,7 +1,3 @@
-export interface Options {
-    message?: string
-}
-
 export interface BasicEmployee {
     email: string,
     first_name: string,

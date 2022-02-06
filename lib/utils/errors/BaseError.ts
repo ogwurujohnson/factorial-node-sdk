@@ -1,4 +1,4 @@
-import type { Options } from "../../types";
+import type { Options } from "../_types";
 
 class BaseError extends Error {
     /**
