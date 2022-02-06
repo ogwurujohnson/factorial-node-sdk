@@ -7,4 +7,5 @@
 
 ## FactorialHR Services exposed by the library
 
-- Employees
+- Core
+    - Employees
