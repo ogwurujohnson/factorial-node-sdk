@@ -29,7 +29,7 @@ class FactorialBase {
    * @memberof FactorialHR
   */
   getToken() {
-    return this.token
+    return this.token;
   }
 
   /**
@@ -37,7 +37,7 @@ class FactorialBase {
    * @memberof FactorialHR
   */
   getBaseUrl() {
-    return this.base_url
+    return this.base_url;
   }
 
   /**
@@ -47,7 +47,7 @@ class FactorialBase {
   */
   setBaseUrl(new_base_url: string) {
     if (new_base_url) {
-      this.base_url = new_base_url
+      this.base_url = new_base_url;
     }
   }
 }

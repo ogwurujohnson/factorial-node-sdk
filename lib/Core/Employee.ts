@@ -1,11 +1,11 @@
-import Helper from "../utils/Helper"
-import { BasicEmployee } from "./_types"
+import Helper from "../utils/Helper";
+import { BasicEmployee } from "./_types";
 
 // TODO: propertly type base constructor argument here using the base class (import it)
 class Employee {
-    base: any
+    base: any;
     constructor(_base: any) {
-        this.base = _base
+        this.base = _base;
     }
 
   /**
@@ -17,11 +17,11 @@ class Employee {
     try {
       const response = await this.base.request.post("/employees", {
         ...employee
-      })
+      });
 
-      return response.data
+      return response.data;
     } catch (e) {
-      Helper.processError(e)
+      Helper.processError(e);
     }
   }
 
@@ -46,13 +46,13 @@ class Employee {
   */
   async getEmployee (id: number) {
     try {
-      const response = await this.base.request.get(`/users/${id}`)
+      const response = await this.base.request.get(`/users/${id}`);
 
-      return response.data
+      return response.data;
     } catch (e) {
-      Helper.processError(e)
+      Helper.processError(e);
     }
   }
 }
 
-export default Employee
+export default Employee;
