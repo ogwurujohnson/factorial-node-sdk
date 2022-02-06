@@ -1,4 +1,4 @@
-import Base from './Base';
+import Base from './FactorialBase';
 import Employee from './Core/Employee';
 
 class FactorialHR {
