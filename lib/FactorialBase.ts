@@ -24,14 +24,27 @@ class FactorialBase {
     });
   }
 
+  /**
+   * @returns {String}  The authorization token
+   * @memberof FactorialHR
+  */
   getToken() {
     return this.token
   }
 
+  /**
+   * @returns {String}  The base URL
+   * @memberof FactorialHR
+  */
   getBaseUrl() {
     return this.base_url
   }
 
+  /**
+   * @param {String} new_base_url - The new base url
+   * @description {JSON}  Updates the base URL
+   * @memberof FactorialHR
+  */
   setBaseUrl(new_base_url: string) {
     if (new_base_url) {
       this.base_url = new_base_url
