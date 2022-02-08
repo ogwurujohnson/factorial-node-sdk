@@ -40,7 +40,7 @@ class Employee {
   }
 
   /**
-   * @param {string} id - The employee id
+   * @param {number} id - The employee id
    * @returns {JSON}  A JSON response containing the details of the user
    * @memberof FactorialHR
   */
@@ -55,14 +55,14 @@ class Employee {
   }
 
   /**
-   * @param {string} id - employee id
+   * @param {number} id - employee id
    * @param {BasicEmployee} employee - Basic Employee object
    * @returns {JSON}  A JSON response containing the new details of the employee
    * @memberof FactorialHR
   */
   async updateEmployee(id: number, employee: BasicEmployee) {
     try {
-      const response = await this.base.request.patch(`/employees/${id}`, {
+      const response = await this.base.request.put(`/employees/${id}`, {
         ...employee
       });
 
@@ -73,7 +73,7 @@ class Employee {
   }
 
   /**
-   * @param {string} id - employee id
+   * @param {number} id - employee id
    * @param {Termination} termination - Termination Details {date, reason}
    * @returns {JSON}  A JSON response containing the details of the terminated employee
    * @memberof FactorialHR
@@ -91,7 +91,7 @@ class Employee {
   }
 
   /**
-   * @param {string} id - employee id
+   * @param {number} id - employee id
    * @returns {JSON}  A JSON response containing the new details of the unterminated employee
    * @memberof FactorialHR
   */
