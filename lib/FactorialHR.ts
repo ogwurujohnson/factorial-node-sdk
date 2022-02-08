@@ -1,11 +1,13 @@
 import Base from "./FactorialBase";
 import Employee from "./Core/Employee";
 import Team from "./Core/Team";
+import Webhooks from "./Core/Webhooks";
 
 class FactorialHR {
   base: any;
   Employee: Employee;
   Team: Team;
+  Webhooks: Webhooks;
 
   /**
    *This is a constructor for creating a FactorialHR Instance
@@ -16,6 +18,7 @@ class FactorialHR {
     this.base = new Base(token);
     this.Employee = new Employee(this.base);
     this.Team = new Team(this.base);
+    this.Webhooks = new Webhooks(this.base)
   }
 }
 

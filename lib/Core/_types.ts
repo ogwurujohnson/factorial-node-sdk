@@ -16,3 +16,8 @@ export interface Termination {
     terminated_on: Date,
     termination_reason: string
 }
+
+export interface Webhook {
+    type: string
+    target_url: string
+}

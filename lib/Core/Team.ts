@@ -1,11 +1,10 @@
 import Helper from "../utils/Helper";
 
 class Team {
-    base: any;
-    constructor(_base: any) {
-      this.base = _base;
-    }
-
+  base: any;
+  constructor(_base: any) {
+    this.base = _base;
+  }
 
   /**
    * @returns {JSON}  A JSON response containing the details of the teams

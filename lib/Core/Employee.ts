@@ -3,10 +3,10 @@ import { BasicEmployee, Termination } from "./_types";
 
 // TODO: propertly type base constructor argument here using the base class (import it)
 class Employee {
-    base: any;
-    constructor(_base: any) {
-        this.base = _base;
-    }
+  base: any;
+  constructor(_base: any) {
+      this.base = _base;
+  }
 
   /**
    * @param {BasicEmployee} employee - Basic Employee object
@@ -26,8 +26,7 @@ class Employee {
   }
 
   /**
-   * @returns {JSON}  A JSON response containing the details of the user
-   * @memberof FactorialHR
+   * @returns {JSON}  A JSON response containing the list of employees
   */
   async getEmployees() {
     try {
@@ -41,7 +40,7 @@ class Employee {
 
   /**
    * @param {number} id - The employee id
-   * @returns {JSON}  A JSON response containing the details of the user
+   * @returns {JSON}  A JSON response containing the details of the employee
    * @memberof FactorialHR
   */
   async getEmployee(id: number) {
