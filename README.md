@@ -8,4 +8,5 @@
 ## FactorialHR Services exposed by the library
 
 - Core
-    - Employees
+    - Employees (v1)
+    - Teams
