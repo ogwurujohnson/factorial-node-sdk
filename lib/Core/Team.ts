@@ -1,5 +1,4 @@
 import Helper from "../utils/Helper";
-import { BasicEmployee } from "./_types";
 
 class Team {
     base: any;
