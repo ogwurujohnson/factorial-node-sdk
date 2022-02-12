@@ -2,6 +2,7 @@ import Helper from "../utils/Helper";
 import { BasicEmployee, Termination } from "./_types";
 
 // TODO: propertly type base constructor argument here using the base class (import it)
+// TODO: rename methods to follow (all, create, find, update) without the Eployees suffix, do same for other utilities
 class Employee {
   base: any;
   constructor(_base: any) {
