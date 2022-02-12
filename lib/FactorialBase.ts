@@ -13,6 +13,7 @@ class FactorialBase {
    */
 
   //  TODO: add production flag in the future
+  // TODO: make token private using the private keyword
   constructor(token: string) {
     this.token = token;
     this.request = axios.create({
