@@ -21,3 +21,26 @@ export interface Webhook {
     type: string
     target_url: string
 }
+
+type JsonField = boolean | number | string | null;
+
+export interface JsonMap {
+  [key: string]: JsonField | JsonMap | JsonArray;
+}
+
+export type JsonArray = Array<JsonField>
+
+export interface APIResponse {
+  __response__: object;
+}
+
+export enum EmployeeSortDirection {
+  Asc = "asc",
+  Desc = "desc",
+}
+
+export enum EmployeeSortField {
+  FirstName = "first_name",
+  LastName = "last_name",
+  TeamId = "team_id",
+}
