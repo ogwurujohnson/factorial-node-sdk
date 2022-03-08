@@ -1,5 +1,4 @@
-import { Api } from "../api/api";
-import Helper from "../utils/Helper";
+import { Api } from "../api/api.js";
 
 export class TeamService {
   private api: Api;

@@ -32,7 +32,7 @@ class ApiError extends FactorialHRException {
 
   constructor(response: any) {
     const {
-      body: { error },
+      data: { error },
     } = response;
     const {
       message,
@@ -56,14 +56,12 @@ class ApiError extends FactorialHRException {
 
   static buildFromResponse(response: any) {
     const {
-      statusCode,
-      body: {
-        error: { type, errors },
-      },
+      status,
+      data
     } = response;
 
     // These statuses are for unique errors
-    switch (statusCode) {
+    switch (status) {
       case 401:
         return new AuthenticationError(response);
       case 403:
@@ -74,7 +72,8 @@ class ApiError extends FactorialHRException {
       //noop
     }
 
-    switch (type) {
+    switch (data) {
+      // HINT: dummy error handlers and classes, later change this to fit factorial use case
       case "validation_failed":
         return new ValidationFailedError(response);
       case "invalid_api_usage":
@@ -84,7 +83,9 @@ class ApiError extends FactorialHRException {
       case "factorialhr":
         return new FactorialHRInternalError(response);
       default:
-        return new ApiError(response);
+        return
+        // TODO: uncomment after fixing error handling
+        // return new ApiError(response);
     }
   }
 

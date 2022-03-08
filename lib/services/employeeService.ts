@@ -1,6 +1,5 @@
-import Helper from "../utils/Helper";
-import { Api } from "../api/api";
-import * as Types from "./_types";
+import { Api } from "../api/api.js";
+import * as Types from "./_types.js";
 
 interface EmployeesListRequest {
   after?: string;
@@ -11,7 +10,7 @@ interface EmployeesListRequest {
 }
 
 interface EmployeesListResponse extends Types.APIResponse {
-  customers: Types.BasicEmployee[];
+  data: Types.BasicEmployee[];
 }
 
 export class EmployeeService {
@@ -25,22 +24,21 @@ export class EmployeeService {
   async create(requestParameters: Types.BasicEmployee, customHeaders: Types.JsonMap = {}) {
     const urlParameters: any = [];
     const requestParams = {
-      path: "/billing_request_flows",
+      path: "/api/v1/employees",
       method: "post",
       urlParameters,
       requestParameters,
-      payloadKey: "billing_request_flows",
       customHeaders,
     };
     const response = await this.api.request(requestParams);
     console.log(response);
   }
 
-  // Promise<EmployeesListResponse>
-  async list(requestParameters: EmployeesListRequest) {
+
+  async list(requestParameters: EmployeesListRequest): Promise<EmployeesListResponse> {
     const urlParameters: any = [];
     const requestParams = {
-      path: "/customers",
+      path: "/api/v1/employees",
       method: "get",
       urlParameters,
       requestParameters,
@@ -48,7 +46,7 @@ export class EmployeeService {
     };
 
     const response = await this.api.request(requestParams);
-    console.log(response);
+    return response
   }
 
   /**

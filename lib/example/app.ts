@@ -1,21 +1,17 @@
-import express from "express";
-import factorialhr from "../index";
+import factorialhr from "../index.js";
 
-const client =  factorialhr("V9Rpk2TB2wa__fcoitqKO-iq0Ez8J1RWzJZFBHl8FSM");
+const client =  factorialhr("dpRjOhUdITJ03BqS6UDvaTLg25FW2mt8hrpAdZMUPag");
 
-// Create Express server
-const app = express();
-
-// Express configuration
-app.set("port", process.env.PORT || 3000);
-
-/**
- * Primary app routes.
- */
-app.get("/", async (req, res) => {
-    const employees = await client.employees.list({});
+const testing = async () => {
+    const employees = await client.employees.create({
+      "email": "test@gmail.com",
+      "first_name": "Joe",
+      "last_name": "JOe",
+      "birthday_on": new Date(),
+      "start_date": new Date(),
+      "regular_access_starts_on": new Date(),
+    });
     console.log(employees);
-    res.status(200).json({ message: "hola" });
-});
+};
 
-export default app;
+testing();

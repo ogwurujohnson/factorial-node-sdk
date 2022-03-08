@@ -1,12 +1,11 @@
-import os = require("os");
-import process = require("process");
+import os from "os";
+import process from "process";
 import * as url from "url";
-// import { ParseError, HTTPError } from "got";
-import got from "got";
 import qs from "qs";
+import axios from "axios"
 
-import { CLIENT_VERSION, API_VERSION } from "../constants";
-import * as FactorialHRErrors from "../errors";
+import { CLIENT_VERSION, API_VERSION } from "../constants.js";
+import * as FactorialHRErrors from "../errors.js";
 
 interface APIOptions {
   proxy?: object;
@@ -66,12 +65,6 @@ export class Api {
       path = path.replace(`:${urlParameter.key}`, urlParameter.value);
     });
 
-    // `got` adds a slash to the end of `prefix_url` so we don't want one at the
-    // start of the path
-    if (path[0] === "/") {
-      path = path.slice(1);
-    }
-
     const requestOptions = this.createRequestOptions(
       method,
       requestParameters,
@@ -80,29 +73,23 @@ export class Api {
     );
 
     try {
-      const response = await got(path, requestOptions);
+      const response = await axios(path, requestOptions);
 
       return {
-        body: response.body,
+        data: response.data,
         __response__: {
           headers: response.headers,
-          statusCode: response.statusCode,
-          statusMessage: response.statusMessage,
-          url: response.url,
+          statusCode: response.status,
+          statusMessage: response.statusText,
+          url: response.config.url,
         },
       };
     } catch (e) {
-      // if (e instanceof ParseError) {
-      //   throw new FactorialHRErrors.MalformedResponseError(
-      //     "Malformed JSON received from FactorialHR API",
-      //     e.response
-      //   );
-      // }
-
-      // if (e instanceof HTTPError) {
-      //   const err = FactorialHRErrors.ApiError.buildFromResponse(e.response);
-      //   throw err;
-      // }
+      if (axios.isAxiosError(e)) {
+        e.response
+        const err = FactorialHRErrors.ApiError.buildFromResponse(e.response);
+        throw err;
+      }
 
       throw e;
     }
@@ -110,7 +97,7 @@ export class Api {
 
   private getHeaders(token: string, customHeaders = {}) {
     const mandatoryHeaders = {
-      Accept: "application/json",
+      Accepts: "application/json",
       Authorization: `Bearer ${token}`,
       "FactorialHR-Version": `${API_VERSION}`,
       "FactorialHR-Client-Version": `${CLIENT_VERSION}`,
@@ -124,25 +111,26 @@ export class Api {
   private createRequestOptions(
     method = "get",
     requestParameters = {},
-    payloadKey = "",
+    payloadKey = null,
     customHeaders = {}
   ) {
     const headers = this.getHeaders(this._token, customHeaders);
-    const searchParams =
+    const params =
       method === "get"
         ? new url.URLSearchParams(this.formatQueryParameters(requestParameters))
         : undefined;
 
-    const json = this.getRequestBody(method, requestParameters, payloadKey);
+    const data = this.getRequestBody(method, requestParameters, payloadKey);
     return {
       agent: this._agent,
-      prefixUrl: this._baseUrl,
+      baseURL: this._baseUrl,
       // tslint:disable-next-line:no-any
       method: method as any,
       responseType: "json" as const,
       headers,
-      searchParams,
-      json,
+      params,
+      data,
+      transitional: { silentJSONParsing: true }
     };
   }
 

@@ -1,6 +1,5 @@
-import { Api } from "../api/api";
-import Helper from "../utils/Helper";
-import { Webhook } from "./_types";
+import { Api } from "../api/api.js";
+import { Webhook } from "./_types.js";
 
 export class WebhookService {
   private api: Api;

@@ -1,7 +1,7 @@
-import { Api } from "./api/api";
-import { EmployeeService } from "./services/employeeService";
-import { TeamService } from "./services/teamService";
-import { WebhookService } from "./services/webhookService";
+import { Api } from "./api/api.js";
+import { EmployeeService } from "./services/employeeService.js";
+import { TeamService } from "./services/teamService.js";
+import { WebhookService } from "./services/webhookService.js";
 
 export class FactorialHRClient {
   private _api: Api;

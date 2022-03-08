@@ -1,4 +1,4 @@
-import { FactorialHRClient } from "./client";
+import { FactorialHRClient } from "./client.js";
 
 const initialiser = function(token: string, options = {}) {
   return new FactorialHRClient(token, options);
