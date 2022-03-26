@@ -22,7 +22,7 @@ interface APIRequestParameters {
   method: string;
   urlParameters?: UrlParameter[];
   requestParameters?: object;
-  payloadKey?: string;
+  payloadKey?: string | null;
   customHeaders?: object;
 }
 
@@ -41,7 +41,7 @@ export class Api {
   ) {
     this._token = token;
 
-    this._baseUrl = "https://api.factorialhr.com";
+    this._baseUrl = "https://api.factorialhr.com/api";
 
     this._agent = undefined;
     if (options.proxy) {
@@ -85,19 +85,21 @@ export class Api {
         },
       };
     } catch (e) {
-      if (axios.isAxiosError(e)) {
-        e.response
-        const err = FactorialHRErrors.ApiError.buildFromResponse(e.response);
-        throw err;
-      }
+      console.log(e)
+      // TODO: handle errors properly
+      // if (axios.isAxiosError(e)) {
+      //   e.response
+      //   const err = FactorialHRErrors.ApiError.buildFromResponse(e.response);
+      //   throw err;
+      // }
 
-      throw e;
+      // throw e;
     }
   }
 
   private getHeaders(token: string, customHeaders = {}) {
     const mandatoryHeaders = {
-      Accepts: "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
       "FactorialHR-Version": `${API_VERSION}`,
       "FactorialHR-Client-Version": `${CLIENT_VERSION}`,
@@ -111,7 +113,7 @@ export class Api {
   private createRequestOptions(
     method = "get",
     requestParameters = {},
-    payloadKey = null,
+    payloadKey: string | null = null,
     customHeaders = {}
   ) {
     const headers = this.getHeaders(this._token, customHeaders);
@@ -119,8 +121,8 @@ export class Api {
       method === "get"
         ? new url.URLSearchParams(this.formatQueryParameters(requestParameters))
         : undefined;
-
     const data = this.getRequestBody(method, requestParameters, payloadKey);
+  
     return {
       agent: this._agent,
       baseURL: this._baseUrl,
@@ -138,11 +140,11 @@ export class Api {
     if ((method === "post" || method === "put") && requestParameters) {
       if (payloadKey) {
         return {
-          [payloadKey]: requestParameters,
+          [payloadKey]: {...requestParameters},
         };
       } else {
         return {
-          data: requestParameters,
+          ...requestParameters,
         };
       }
     }

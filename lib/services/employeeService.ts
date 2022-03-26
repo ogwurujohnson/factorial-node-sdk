@@ -1,7 +1,7 @@
 import { Api } from "../api/api.js";
 import * as Types from "./_types.js";
 
-interface EmployeesListRequest {
+interface EmployeeListRequest {
   after?: string;
   before?: string;
   limit?: string;
@@ -13,104 +13,133 @@ interface EmployeesListResponse extends Types.APIResponse {
   data: Types.BasicEmployee[];
 }
 
+interface EmployeeResponse extends Types.APIResponse {
+  data: Types.BasicEmployee;
+}
+
 export class EmployeeService {
   private api: Api;
 
   constructor(api: Api) {
-      this.api = api;
+    this.api = api;
   }
 
-
-  async create(requestParameters: Types.BasicEmployee, customHeaders: Types.JsonMap = {}) {
+  // TODO: Ask if there is a reason why names are randomly generated
+  async create(
+    requestParameters: Types.BasicEmployee,
+    customHeaders: Types.JsonMap = {}
+  ): Promise<EmployeeResponse> {
     const urlParameters: any = [];
     const requestParams = {
-      path: "/api/v1/employees",
+      path: "/v1/employees",
       method: "post",
       urlParameters,
       requestParameters,
       customHeaders,
     };
+
     const response = await this.api.request(requestParams);
-    console.log(response);
+    const formattedResponse: EmployeeResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
+
+    return formattedResponse;
   }
 
-
-  async list(requestParameters: EmployeesListRequest): Promise<EmployeesListResponse> {
+  async list(
+    requestParameters: EmployeeListRequest
+  ): Promise<EmployeesListResponse> {
     const urlParameters: any = [];
     const requestParams = {
-      path: "/api/v1/employees",
+      path: "/v1/employees",
       method: "get",
       urlParameters,
       requestParameters,
-      payloadKey: "employee_list",
     };
 
     const response = await this.api.request(requestParams);
-    return response
+
+    return response;
   }
 
-  /**
-   * @param {number} id - The employee id
-   * @returns {JSON}  A JSON response containing the details of the employee
-   * @memberof FactorialHR
-  */
-  // async getEmployee(id: number) {
-  //   try {
-  //     const response = await this.base.request.get(`/employees/${id}`);
+  async find(identity: string): Promise<EmployeeResponse> {
+    const urlParameters = [{ key: "id", value: identity }];
+    const requestParams = {
+      path: "/v1/employees/:id",
+      method: "get",
+      urlParameters,
+    };
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+    const response = await this.api.request(requestParams);
+    const formattedResponse: EmployeeResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
 
-  /**
-   * @param {number} id - employee id
-   * @param {BasicEmployee} employee - Basic Employee object
-   * @returns {JSON}  A JSON response containing the new details of the employee
-   * @memberof FactorialHR
-  */
-  // async updateEmployee(id: number, employee: Types.BasicEmployee) {
-  //   try {
-  //     const response = await this.base.request.put(`/employees/${id}`, {
-  //       ...employee
-  //     });
+    return formattedResponse;
+  }
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+  async update(
+    identity: string,
+    requestParameters: Types.BasicEmployee,
+    customHeaders: Types.JsonMap = {}
+  ): Promise<EmployeeResponse> {
+    const urlParameters = [{ key: "id", value: identity }];
+    const requestParams = {
+      path: "/v1/employees/:id",
+      method: "put",
+      urlParameters,
+      requestParameters,
+      customHeaders,
+    };
 
-  /**
-   * @param {number} id - employee id
-   * @param {Termination} termination - Termination Details {date, reason}
-   * @returns {JSON}  A JSON response containing the details of the terminated employee
-   * @memberof FactorialHR
-  */
-  // async terminateEmployee(id: number, termination: Termination) {
-  //   try {
-  //     const response = await this.base.request.post(`/employees/${id}/terminate`, {
-  //       ...termination
-  //     });
+    const response = await this.api.request(requestParams);
+    const formattedResponse: EmployeeResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+    return formattedResponse;
+  }
 
-  /**
-   * @param {number} id - employee id
-   * @returns {JSON}  A JSON response containing the new details of the unterminated employee
-   * @memberof FactorialHR
-  */
-  // async unterminateEmployee(id: number) {
-  //   try {
-  //     const response = await this.base.request.post(`/employees/${id}/unterminate`, {});
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+  async terminate(
+    identity: string,
+    requestParameters: Types.Termination,
+    customHeaders: Types.JsonMap = {}
+  ): Promise<EmployeeResponse> {
+    const urlParameters = [{ key: "id", value: identity }];
+    const requestParams = {
+      path: "/v1/employees/:id/terminate",
+      method: "post",
+      urlParameters,
+      requestParameters,
+      customHeaders,
+    };
+
+    const response = await this.api.request(requestParams);
+    const formattedResponse: EmployeeResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
+
+    return formattedResponse;
+  }
+
+  async unterminate(identity: string): Promise<EmployeeResponse> {
+    const urlParameters = [{ key: "id", value: identity }];
+    const requestParams = {
+      path: "/v1/employees/:id/unterminate",
+      method: "post",
+      urlParameters,
+    };
+
+    const response = await this.api.request(requestParams);
+    const formattedResponse: EmployeeResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
+
+    return formattedResponse;
+  }
 }
