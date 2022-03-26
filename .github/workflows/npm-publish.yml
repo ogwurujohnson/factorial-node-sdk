@@ -1,41 +1,77 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
-
-name: Node.js Package
+name: FactorialHr Node.js Client
 
 on:
   release:
     types: [created]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-        
-    steps:
-      - uses: actions/checkout@v2.1.1
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: npm ci 
-      - run: npm test
-        env:
-          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          CARD_ID: ${{ secrets.CARD_ID }}
+version: 2
+references:
+  build_directory: &build_directory
+    '/built-library'
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-        
+  dist_folder: &dist_folder
+    '/built-library/dist'
+
+  node_image: &node_image
+    working_directory: *build_directory
+    docker:
+      - image: "node:12"
+
+jobs:
+  transpile_library:
+    <<: *node_image
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - checkout
+      - run: npm install
+      - run: npm install -g typescript
+      - run: tsc -p .
+      - persist_to_workspace:
+          root: *build_directory
+          paths:
+            - "*"
+    environment:
+      OUT_DIR: *build_directory
+      DIST_FOLDER: *dist_folder
+
+  # test_library:
+  #   <<: *node_image
+  #   steps:
+  #     - checkout
+  #     - run: npm install --save-dev jest typescript ts-jest @types/jest
+  #     - run: npm test
+
+  publish_to_npm:
+    <<: *node_image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: *build_directory
+      - run: cp package.json $DIST_FOLDER
+      - run: cp README.md $DIST_FOLDER
+      - run: npm install
+      - run:
+          name: Authenticate w/NPM.
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > .npmrc
+      - run:
+          name: Publish the library.
+          command: npm publish $DIST_FOLDER
+    environment:
+      OUT_DIR: *build_directory
+      DIST_FOLDER: *dist_folder
+
+
+workflows:
+  version: 2
+  deploy_library:
+    jobs:
+      # - test_library
+      - transpile_library:
+          requires:
+            - test_library
+      - publish_to_npm:
+          requires:
+            - transpile_library
+          filters:
+            branches:
+              only:
+                - main
