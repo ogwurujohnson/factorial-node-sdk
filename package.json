@@ -6,15 +6,16 @@
     "type": "git",
     "url": ""
   },
+  "main": "dist/index.js",
   "author": "Johnson Ogwuru",
   "license": "MIT",
   "scripts": {
     "build-ts": "tsc",
-    "build": "npm run build-ts && npm run lint",
+    "build": "tsc -p .",
     "debug": "npm run build && npm run watch-debug",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
     "serve-debug": "nodemon --inspect dist/server.js",
-    "serve": "node dist/lib/example/server.js",
+    "serve": "node dist/example/server.js",
     "start": "npm run serve",
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"npm run watch-ts\" \"npm run serve-debug\"",
     "watch-node": "nodemon dist/server.js",
@@ -26,7 +27,10 @@
     "axios": "^0.25.0",
     "dotenv": "^15.0.0",
     "errorhandler": "^1.5.1",
+    "esm": "^3.2.25",
     "express": "^4.17.2",
+    "got": "^12.0.1",
+    "node-fetch": "2.6.1",
     "qs": "^6.10.3",
     "winston": "^3.5.1"
   },
@@ -35,6 +39,7 @@
     "@types/errorhandler": "^1.5.0",
     "@types/eslint": "^8.4.1",
     "@types/express": "^4.17.13",
+    "@types/got": "^9.6.12",
     "@types/node": "^17.0.13",
     "@types/request": "^2.48.8",
     "@types/request-promise": "^4.1.48",
@@ -44,7 +49,11 @@
     "concurrently": "^7.0.0",
     "eslint": "^8.8.0",
     "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
+  },
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   }
 }
