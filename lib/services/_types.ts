@@ -25,8 +25,8 @@ export interface Termination {
 }
 
 export interface Webhook {
-    type: string
-    target_url: string
+    type?: string
+    target_url?: string
 }
 
 type JsonField = boolean | number | string | null;
