@@ -1,4 +1,22 @@
 import { Api } from "../api/api.js";
+import * as Types from "./_types.js";
+
+interface TeamListRequest {
+  after?: string;
+  before?: string;
+  limit?: string;
+  sort_direction?: Types.SortDirection;
+  sort_field?: Types.TeamSortField;
+}
+
+interface TeamListResponse extends Types.APIResponse {
+  data: Types.BasicTeam[];
+}
+
+
+interface TeamResponse extends Types.APIResponse {
+  data: Types.BasicEmployee;
+}
 
 export class TeamService {
   private api: Api;
@@ -7,81 +25,98 @@ export class TeamService {
     this.api = api;
   }
 
-  /**
-   * @returns {JSON}  A JSON response containing the details of the teams
-   * @memberof FactorialHR
-  */
-  // async getTeams () {
-  //   try {
-  //     const response = await this.base.request.get("/core/teams");
+  async create(
+    requestParameters: Types.BasicTeam,
+    customHeaders: Types.JsonMap = {}
+  ): Promise<TeamResponse> {
+    const urlParameters: any = [];
+    const requestParams = {
+      path: "/v1/core/teams",
+      method: "post",
+      urlParameters,
+      requestParameters,
+      customHeaders,
+    };
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+    const response = await this.api.request(requestParams);
+    const formattedResponse: TeamResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
 
-  /**
-   * @param {number} id - Team id
-   * @returns {JSON}  A JSON response containing the details of the team
-   * @memberof FactorialHR
-  */
-  // async getTeam (id: number) {
-  //   try {
-  //     const response = await this.base.request.get(`/core/teams/${id}`);
+    return formattedResponse;
+  }
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+  async list(
+    requestParameters: TeamListRequest
+  ): Promise<TeamListResponse> {
+    const urlParameters: any = [];
+    const requestParams = {
+      path: "/v1/core/teams",
+      method: "get",
+      urlParameters,
+      requestParameters,
+    };
 
-  /**
-   * @param {string} name - Team name
-   * @returns {JSON}  A JSON response containing the newly created team
-   * @memberof FactorialHR
-  */
-  // async createTeam(name: string) {
-  //   try {
-  //     const response = await this.base.request.post(`/core/teams`, {
-  //       name
-  //     });
+    const response = await this.api.request(requestParams);
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+    return response;
+  }
 
-  /**
-   * @param {string} name - Team name
-   * @param {number} id - Team id
-   * @returns {JSON}  A JSON response containing the updated team
-   * @memberof FactorialHR
-  */
-  // async updateTeam(name: string, id: number) {
-  //   try {
-  //     const response = await this.base.request.put(`/core/teams/${id}`, {
-  //       name
-  //     });
+  async find(identity: string): Promise<TeamResponse> {
+    const urlParameters = [{ key: "id", value: identity }];
+    const requestParams = {
+      path: "/v1/core/teams/:id",
+      method: "get",
+      urlParameters,
+    };
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+    const response = await this.api.request(requestParams);
+    const formattedResponse: TeamResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
 
-  /**
-   * @param {number} id - Team id
-   * @memberof FactorialHR
-  */
-  // async deleteTeam(id: number) {
-  //   try {
-  //     const response = await this.base.request.delete(`/core/teams/${id}`);
+    return formattedResponse;
+  }
 
-  //     return response.data;
-  //   } catch (e) {
-  //     Helper.processError(e);
-  //   }
-  // }
+  async update(
+    identity: string,
+    requestParameters: Types.BasicTeam,
+    customHeaders: Types.JsonMap = {}
+  ): Promise<TeamResponse> {
+    const urlParameters = [{ key: "id", value: identity }];
+    const requestParams = {
+      path: "/v1/core/teams/:id",
+      method: "put",
+      urlParameters,
+      requestParameters,
+      customHeaders,
+    };
+
+    const response = await this.api.request(requestParams);
+    const formattedResponse: TeamResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
+
+    return formattedResponse;
+  }
+
+  async delete(identity: string): Promise<TeamResponse> {
+    const urlParameters = [{ key: "id", value: identity }];
+    const requestParams = {
+      path: "/v1/core/teams/:id",
+      method: "delete",
+      urlParameters,
+    };
+
+    const response = await this.api.request(requestParams);
+    const formattedResponse: TeamResponse = {
+      ...response.data,
+      __response__: response.__response__,
+    };
+
+    return formattedResponse;
+  }
 }

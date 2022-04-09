@@ -1,12 +1,11 @@
 import { Api } from "../api/api.js";
 import * as Types from "./_types.js";
 
-// 
 interface EmployeeListRequest {
   after?: string;
   before?: string;
   limit?: string;
-  sort_direction?: Types.EmployeeSortDirection;
+  sort_direction?: Types.SortDirection;
   sort_field?: Types.EmployeeSortField;
 }
 
@@ -25,7 +24,6 @@ export class EmployeeService {
     this.api = api;
   }
 
-  // TODO: Ask if there is a reason why names are randomly generated
   async create(
     requestParameters: Types.BasicEmployee,
     customHeaders: Types.JsonMap = {}

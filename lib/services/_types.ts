@@ -12,6 +12,13 @@ export interface BasicEmployee {
     termination_reason?: string
 }
 
+export interface BasicTeam {
+  id?: number,
+  name: string,
+  employee_ids: number[],
+  lead_ids: number[]
+}
+
 export interface Termination {
   terminated_on: Date,
   termination_reason: string
@@ -34,13 +41,20 @@ export interface APIResponse {
   __response__: object;
 }
 
-export enum EmployeeSortDirection {
+export enum SortDirection {
   Asc = "asc",
   Desc = "desc",
 }
 
+// TODO: Make changes to this, to confirm with Factorials
 export enum EmployeeSortField {
   FirstName = "first_name",
   LastName = "last_name",
   TeamId = "team_id",
+  Email = "email"
+}
+
+export enum TeamSortField {
+  TeamName = "name",
+  Teamid = "id"
 }
